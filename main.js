@@ -41,7 +41,7 @@ list_div.setAttribute("class", "list_div");
 container.appendChild(list_div);
 
 let input_data
-
+get_data_db();
 async function todo_app() {
     input_data = document.getElementById("inp1").value;
     console.log(input_data);    
@@ -56,17 +56,18 @@ async function todo_app() {
           task: input_data
         });
         console.log("Document written with ID: ", docRef.id);
+        inp1.value = "";
       } catch (e) {
         console.error("Error adding document: ", e);
     }
     get_data_db();
-   input_data = "";
+   //input_data = "";
 }
 
 async function get_data_db() {
     const querySnapshot = await getDocs(collection(db, "users"));
     querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`);
+    console.log(`${doc.id} => ${doc.data().task}`);
 
     let li_4_div = document.createElement("li");
         
@@ -98,8 +99,8 @@ async function get_data_db() {
         await deleteDoc(doc(db, "users", "OuJr9nlPd0le8s6wmN6V"));
     }
 };
-// input_data.addEventListener("keypress", function(event) {
-//     if (event.key === "Enter") {
-//         todo_app();
-//     }
-// });
+document.getElementById("inp1").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        todo_app();
+    }
+});
